@@ -1,8 +1,15 @@
 // Package geom describes geometry interfaces.
 package geom
 
+// BoundingBox describes the extents of a geometry
+type BoundingBox interface {
+	BBox() (float64, float64, float64, float64)
+}
+
 // Geometry describes a geometry.
-type Geometry interface{}
+type Geometry interface {
+	BoundingBox
+}
 
 // Point is a point with two dimensions.
 type Point interface {
