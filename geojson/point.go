@@ -18,8 +18,10 @@ package geojson
 
 import (
 	"encoding/json"
+	"errors"
 
 	"github.com/go-spatial/geom"
+	"github.com/go-spatial/geom/core"
 )
 
 // The Point object contains a single position
@@ -34,17 +36,24 @@ type FromPointOptions struct {
 	BBox bool
 }
 
-// // ToPoint returns a Point for the GeoJSON input
-// func ToPoint(input string) geom.Point {
-// 	var (
-// 		result
-// 		point Point
-// 		err error
-// 	)
-// 	if err = json.Unmarshal(bytes, &point); err == nil {
-//
-// 	}
-// }
+// ToPoint returns a Point for the GeoJSON input
+func ToPoint(bytes []byte) (geom.Point, error) {
+	var (
+		result geom.Point
+		point  Point
+		err    error
+	)
+	if err = json.Unmarshal(bytes, &point); err == nil {
+		switch len(point.Coordinates) {
+		case 2:
+			result = core.Point{X: point.Coordinates[0], Y: point.Coordinates[1]}
+		default:
+			return result, errors.New("Input does not have two coordinates.")
+		}
+
+	}
+	return result, err
+}
 
 // FromPoint returns GeoJSON for the input point
 func FromPoint(input geom.Point, options FromPointOptions) (string, error) {

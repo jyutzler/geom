@@ -17,31 +17,12 @@ limitations under the License.
 package geojson
 
 import (
+	"io/ioutil"
 	"testing"
 
 	"github.com/go-spatial/geom"
 	"github.com/go-spatial/geom/core"
 )
-
-// func TestRTPoint(t *testing.T) {
-// 	var (
-// 		gj     interface{}
-// 		err    error
-// 		m      map[string]interface{}
-// 		p1     *Point
-// 		p2     *Point
-// 		result = `{"type":"Point","coordinates":[100,0]}`
-// 	)
-// 	if gj, err = ParseFile("test/point.geojson"); err != nil {
-// 		t.Errorf("Failed to parse file: %v", err)
-// 	}
-// 	p1 = gj.(*Point)
-// 	m = p1.Map()
-// 	p2 = FromMap(m).(*Point)
-// 	if p2.String() != result {
-// 		t.Errorf("Round trip point failed: %v", p2.String())
-// 	}
-// }
 
 const POINT2 = `{"type":"Point","coordinates":[10,20]}`
 const POINT2B = `{"type":"Point","coordinates":[10,20],"bbox":[10,20,10,20]}`
@@ -70,5 +51,33 @@ func TestFromPoint(t *testing.T) {
 		}
 	} else {
 		t.Error(err)
+	}
+}
+
+func TestToPoint(t *testing.T) {
+	var (
+		err   error
+		point geom.Point
+		bytes []byte
+		x, y  float64
+	)
+	if bytes, err = ioutil.ReadFile("test/point.geojson"); err != nil {
+		t.Error(err)
+	}
+	if point, err = ToPoint(bytes); err != nil {
+		t.Error(err)
+	}
+	x, y = point.XY()
+	if x != 100 {
+		t.Errorf("Expected x=100, received %v", x)
+	}
+	if y != 0 {
+		t.Errorf("Expected y=0, received %v", y)
+	}
+	if bytes, err = ioutil.ReadFile("test/point3.geojson"); err != nil {
+		t.Error(err)
+	}
+	if point, err = ToPoint(bytes); err == nil {
+		t.Error("Expected failure due to too many coordinates, but it succeeded.")
 	}
 }
