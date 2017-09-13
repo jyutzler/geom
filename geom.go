@@ -26,7 +26,7 @@ type Point3 interface {
 // MultiPoint is a geometry with multiple points.
 type MultiPoint interface {
 	Geometry
-	Points() []Point
+	SubPoints() []Point
 }
 
 // LineString is a line of two or more points

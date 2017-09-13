@@ -23,37 +23,37 @@ import (
 	"github.com/go-spatial/geom/core"
 )
 
-// LineString is a line of two or more points
-type LineString struct {
+// MultiPoint is a geometry with multiple points
+type MultiPoint struct {
 	Type        string      `json:"type"`
 	Coordinates [][]float64 `json:"coordinates"`
 	BBox        BoundingBox `json:"bbox,omitempty"`
 }
 
-// ToLineString returns a LineString for the GeoJSON input
-func ToLineString(bytes []byte) (geom.LineString, error) {
+// ToMultiPoint returns a MultiPoint for the GeoJSON input
+func ToMultiPoint(bytes []byte) (geom.MultiPoint, error) {
 	var (
-		result       geom.LineString
-		gjLineString LineString
-		lineString   core.LineString
+		result       geom.MultiPoint
+		gjMultiPoint MultiPoint
+		points       []geom.Point
 		err          error
 	)
-	if err = json.Unmarshal(bytes, &gjLineString); err == nil {
+	if err = json.Unmarshal(bytes, &gjMultiPoint); err == nil {
 
-		for _, coords := range gjLineString.Coordinates {
-			lineString.Points = append(lineString.Points, core.Point{X: coords[0], Y: coords[1]})
+		for _, coords := range gjMultiPoint.Coordinates {
+			points = append(points, core.Point{X: coords[0], Y: coords[1]})
 		}
-		result = lineString
+		result = core.MultiPoint{Points: points}
 	}
 	return result, err
 }
 
-// FromLineString returns GeoJSON for the input point
-func FromLineString(input geom.LineString, options FromOptions) (string, error) {
+// FromMultiPoint returns GeoJSON for the input point
+func FromMultiPoint(input geom.MultiPoint, options FromOptions) (string, error) {
 	var (
 		result      string
 		err         error
-		lineString  LineString
+		multiPoint  MultiPoint
 		coordinates [][]float64
 		bytes       []byte
 	)
@@ -61,12 +61,12 @@ func FromLineString(input geom.LineString, options FromOptions) (string, error) 
 		x, y := point.XY()
 		coordinates = append(coordinates, []float64{x, y})
 	}
-	lineString = LineString{Type: LINESTRING, Coordinates: coordinates}
+	multiPoint = MultiPoint{Type: MULTIPOINT, Coordinates: coordinates}
 	if options.BBox {
 		x1, y1, x2, y2 := input.BBox()
-		lineString.BBox = BoundingBox{x1, y1, x2, y2}
+		multiPoint.BBox = BoundingBox{x1, y1, x2, y2}
 	}
-	if bytes, err = json.Marshal(lineString); err == nil {
+	if bytes, err = json.Marshal(multiPoint); err == nil {
 		result = string(bytes)
 	}
 	return result, err

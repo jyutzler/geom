@@ -15,7 +15,7 @@ func TestPoint(t *testing.T) {
 	point.BBox()
 }
 
-func TestLineString(t *testing.T) {
+func TestLineStringAndMakeBBox(t *testing.T) {
 	var (
 		ls     geom.LineString
 		points []geom.Point
@@ -36,4 +36,14 @@ func TestLineString(t *testing.T) {
 	if y2 != 40 {
 		t.Errorf("Expected y2 = 40, received %v", y2)
 	}
+}
+
+func TestMultiPoint(t *testing.T) {
+	var (
+		mp     geom.MultiPoint
+		points []geom.Point
+	)
+	points = append(points, Point{X: 10, Y: 20}, Point{X: 30, Y: 40}, Point{X: -10, Y: -5})
+	mp = MultiPoint{Points: points}
+	mp.BBox()
 }

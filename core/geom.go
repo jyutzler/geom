@@ -39,3 +39,22 @@ func (ls LineString) BBox() (float64, float64, float64, float64) {
 	}
 	return ls.bbox.BBox()
 }
+
+// MultiPoint is a geometry with multiple points
+type MultiPoint struct {
+	Points []geom.Point
+	bbox   geom.BoundingBox
+}
+
+// SubPoints returns the points that compose the MultiPoint
+func (mp MultiPoint) SubPoints() []geom.Point {
+	return mp.Points
+}
+
+// BBox returns x1, y1, x2, y2
+func (mp MultiPoint) BBox() (float64, float64, float64, float64) {
+	if mp.bbox == nil {
+		mp.bbox = MakeBBox(mp.SubPoints())
+	}
+	return mp.bbox.BBox()
+}
