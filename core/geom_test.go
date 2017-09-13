@@ -47,3 +47,28 @@ func TestMultiPoint(t *testing.T) {
 	mp = MultiPoint{Points: points}
 	mp.BBox()
 }
+
+func TestPolygon(t *testing.T) {
+	var (
+		polygon     geom.Polygon
+		lineStrings []geom.LineString
+	)
+	lineStrings = append(lineStrings, LineString{Points: []geom.Point{Point{X: 10, Y: 20},
+		Point{X: 30, Y: 40},
+		Point{X: -10, Y: -5},
+		Point{X: 10, Y: 20}}})
+	polygon = Polygon{LineStrings: lineStrings}
+	x1, y1, x2, y2 := polygon.BBox()
+	if x1 != -10 {
+		t.Errorf("Expected x1 = -10, received %v", x1)
+	}
+	if x2 != 30 {
+		t.Errorf("Expected x2 = 30, received %v", x2)
+	}
+	if y1 != -5 {
+		t.Errorf("Expected y1 = -5, received %v", y1)
+	}
+	if y2 != 40 {
+		t.Errorf("Expected y2 = 40, received %v", y2)
+	}
+}

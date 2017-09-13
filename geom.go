@@ -50,7 +50,7 @@ type Polygon interface {
 // MultiPolygon is a geometry of multiple polygons.
 type MultiPolygon interface {
 	Geometry
-	Polygons() []Polygon
+	SubPolygons() []Polygon
 }
 
 // Collection is a collections of different geometries.

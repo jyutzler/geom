@@ -48,7 +48,7 @@ func ToLineString(bytes []byte) (geom.LineString, error) {
 	return result, err
 }
 
-// FromLineString returns GeoJSON for the input point
+// FromLineString returns GeoJSON for the input LineString
 func FromLineString(input geom.LineString, options FromOptions) (string, error) {
 	var (
 		result      string

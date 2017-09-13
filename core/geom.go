@@ -58,3 +58,22 @@ func (mp MultiPoint) BBox() (float64, float64, float64, float64) {
 	}
 	return mp.bbox.BBox()
 }
+
+// Polygon is a geometry consisting of multiple closed LineStrings. There must be only one exterior LineString with a clockwise winding order. There may be one or more interior LineStrings with a counterclockwise winding orders.
+type Polygon struct {
+	LineStrings []geom.LineString
+	bbox        geom.BoundingBox
+}
+
+// SubLineStrings returns the LineStrings that compose the Polygon
+func (polygon Polygon) SubLineStrings() []geom.LineString {
+	return polygon.LineStrings
+}
+
+// BBox returns x1, y1, x2, y2
+func (polygon Polygon) BBox() (float64, float64, float64, float64) {
+	if polygon.bbox == nil {
+		polygon.bbox = MakeBBox(polygon.SubLineStrings())
+	}
+	return polygon.bbox.BBox()
+}
