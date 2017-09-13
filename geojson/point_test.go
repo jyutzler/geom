@@ -29,14 +29,14 @@ const POINT2B = `{"type":"Point","coordinates":[10,20],"bbox":[10,20,10,20]}`
 
 func TestFromPoint(t *testing.T) {
 	var (
-		point geom.Point
-		text  string
-		err   error
-		fpo   FromPointOptions
+		point   geom.Point
+		text    string
+		err     error
+		options FromOptions
 	)
 	point = core.Point{X: 10, Y: 20}
 
-	if text, err = FromPoint(point, fpo); err == nil {
+	if text, err = FromPoint(point, options); err == nil {
 		if text != POINT2 {
 			t.Errorf("Expected %v, received %v.", POINT2, text)
 		}
@@ -44,8 +44,8 @@ func TestFromPoint(t *testing.T) {
 		t.Error(err)
 	}
 
-	fpo.BBox = true
-	if text, err = FromPoint(point, fpo); err == nil {
+	options.BBox = true
+	if text, err = FromPoint(point, options); err == nil {
 		if text != POINT2B {
 			t.Errorf("Expected %v, received %v.", POINT2B, text)
 		}

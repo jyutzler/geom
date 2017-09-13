@@ -30,3 +30,8 @@ const (
 	GEOMETRYCOLLECTION = "GeometryCollection"
 	GEOMETRIES         = "geometries"
 )
+
+// FromOptions contains the various options for the From* functions
+type FromOptions struct {
+	BBox bool
+}

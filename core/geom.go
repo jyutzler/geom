@@ -23,13 +23,13 @@ func (p Point) BBox() (float64, float64, float64, float64) {
 
 // LineString is a line of two or more points
 type LineString struct {
-	points []geom.Point
+	Points []geom.Point
 	bbox   geom.BoundingBox
 }
 
 // SubPoints returns the points that compose the LineString
 func (ls LineString) SubPoints() []geom.Point {
-	return ls.points
+	return ls.Points
 }
 
 // BBox returns x1, y1, x2, y2

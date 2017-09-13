@@ -21,7 +21,7 @@ func TestLineString(t *testing.T) {
 		points []geom.Point
 	)
 	points = append(points, Point{X: 10, Y: 20}, Point{X: 30, Y: 40}, Point{X: -10, Y: -5})
-	ls = LineString{points: points}
+	ls = LineString{Points: points}
 	ls.SubPoints()
 	x1, y1, x2, y2 := ls.BBox()
 	if x1 != -10 {

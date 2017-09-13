@@ -31,11 +31,6 @@ type Point struct {
 	BBox        BoundingBox `json:"bbox,omitempty"`
 }
 
-// FromPointOptions contains the various options for the FromPoint function
-type FromPointOptions struct {
-	BBox bool
-}
-
 // ToPoint returns a Point for the GeoJSON input
 func ToPoint(bytes []byte) (geom.Point, error) {
 	var (
@@ -56,7 +51,7 @@ func ToPoint(bytes []byte) (geom.Point, error) {
 }
 
 // FromPoint returns GeoJSON for the input point
-func FromPoint(input geom.Point, options FromPointOptions) (string, error) {
+func FromPoint(input geom.Point, options FromOptions) (string, error) {
 	var (
 		result string
 		point  Point
