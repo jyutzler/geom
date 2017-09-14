@@ -77,3 +77,22 @@ func (polygon Polygon) BBox() (float64, float64, float64, float64) {
 	}
 	return polygon.bbox.BBox()
 }
+
+// MultiLineString is a geometry with multiple LineStrings.
+type MultiLineString struct {
+	LineStrings []geom.LineString
+	bbox        geom.BoundingBox
+}
+
+// SubLineStrings returns the LineStrings that compose the Polygon
+func (mls MultiLineString) SubLineStrings() []geom.LineString {
+	return mls.LineStrings
+}
+
+// BBox returns x1, y1, x2, y2
+func (mls MultiLineString) BBox() (float64, float64, float64, float64) {
+	if mls.bbox == nil {
+		mls.bbox = MakeBBox(mls.SubLineStrings())
+	}
+	return mls.bbox.BBox()
+}

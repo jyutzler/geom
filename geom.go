@@ -38,7 +38,7 @@ type LineString interface {
 // MultiLineString is a geometry with multiple LineStrings.
 type MultiLineString interface {
 	Geometry
-	LineStrings() []LineString
+	SubLineStrings() []LineString
 }
 
 // Polygon is a geometry consisting of multiple closed LineStrings. There must be only one exterior LineString with a clockwise winding order. There may be one or more interior LineStrings with a counterclockwise winding orders.
