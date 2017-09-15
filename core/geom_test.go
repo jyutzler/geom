@@ -97,3 +97,28 @@ func TestMultiLineString(t *testing.T) {
 		t.Errorf("Expected y2 = 40, received %v", y2)
 	}
 }
+
+func TestMultiPolygon(t *testing.T) {
+	var (
+		mp          geom.MultiPolygon
+		lineStrings []geom.LineString
+	)
+	lineStrings = append(lineStrings, LineString{Points: []geom.Point{Point{X: 10, Y: 20},
+		Point{X: 30, Y: 40},
+		Point{X: -10, Y: -5},
+		Point{X: 15, Y: 20}}})
+	mp = MultiPolygon{Polygons: []geom.Polygon{Polygon{LineStrings: lineStrings}}}
+	x1, y1, x2, y2 := mp.BBox()
+	if x1 != -10 {
+		t.Errorf("Expected x1 = -10, received %v", x1)
+	}
+	if x2 != 30 {
+		t.Errorf("Expected x2 = 30, received %v", x2)
+	}
+	if y1 != -5 {
+		t.Errorf("Expected y1 = -5, received %v", y1)
+	}
+	if y2 != 40 {
+		t.Errorf("Expected y2 = 40, received %v", y2)
+	}
+}

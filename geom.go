@@ -9,18 +9,13 @@ type BoundingBox interface {
 // Geometry describes a geometry.
 type Geometry interface {
 	BoundingBox
+	XYs() [][2]float64
 }
 
 // Point is a point with two dimensions.
 type Point interface {
 	Geometry
 	XY() (float64, float64)
-}
-
-// Point3 is a point with three dimensions.
-type Point3 interface {
-	Point
-	XYZ() (float64, float64, float64)
 }
 
 // MultiPoint is a geometry with multiple points.
